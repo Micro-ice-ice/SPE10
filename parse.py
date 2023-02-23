@@ -1,7 +1,7 @@
 layer = int(input("Enter layer "))
 output = []
-with open('spe_perm.dat') as file1:
-    with open('spe_phi.dat') as file2:
+with open('./por_perm_case2a/spe_perm.dat') as file1:
+    with open('./por_perm_case2a/spe_phi.dat') as file2:
         data1 = file1.read().splitlines()
         data2 = file2.read().splitlines()
         for line in data1:
@@ -31,7 +31,7 @@ for j in range(60 * 220 * layer, 60 * 220 * (layer + 1)):
     ky.append(output[j + step])
     phi.append(output[j + 3 * step])
 
-file = open("data.txt", "w")
+file = open("./por_perm_case2a/data.txt", "w")
 for i in range(len(kx)):
     file.write(kx[i] + " " + ky[i] + " " + phi[i] + " ")
 file.close()

@@ -1,2 +1,8 @@
 build
 por_perm_case2a
+cmake-build-debug
+.git
+.idea
+rel_perm_tab2.txt
+spe_perm.dat
+spe_phi.dat

@@ -15,7 +15,7 @@ double k_si(double pb, double pi, double Si, bool w){
         }
         else return Si;
     }
-}
+} //
 
 double WI(double kx, double ky){
     return (2 * PI * HZ * sqrt(kx * ky)) /

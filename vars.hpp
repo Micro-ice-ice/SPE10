@@ -1,6 +1,6 @@
 #pragma once
 
-const double NX = 60, NY = 220, NZ = 85;
+const double NX = 60, NY = 220, NZ = 85; //
 
 const double PI = 3.14159265359;
 

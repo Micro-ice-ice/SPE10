@@ -2,7 +2,7 @@
 #include <cmath>
 #include "vars.hpp"
 
-double k_si(double pb, double pi, double Si, bool w){
+inline double k_si(double pb, double pi, double Si, bool w){
     if (pb > pi){
        if (w){
            return 1;
@@ -15,9 +15,9 @@ double k_si(double pb, double pi, double Si, bool w){
         }
         else return Si;
     }
-} //
+}
 
-double WI(double kx, double ky){
+inline double WI(double kx, double ky){
     return (2 * PI * HZ * sqrt(kx * ky)) /
             log(0.28 * sqrt(pow(kx, 2)
             * sqrt(ky / kx) + pow(ky, 2) * sqrt(kx / ky))

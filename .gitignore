@@ -6,3 +6,4 @@ cmake-build-debug
 rel_perm_tab2.txt
 spe_perm.dat
 spe_phi.dat
+venv

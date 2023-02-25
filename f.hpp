@@ -26,17 +26,17 @@ inline double WI(double kx, double ky){
 }
 
 inline double T_ij(double ki, double kj, double h){
-    return 2 * ki * kj / pow(h, 2) * (ki + kj);
+    return 2 * ki * kj / (h * (ki + kj));
 }
 
-inline double T_boundary(double ki, double h, double u_init = 1) {
-    return 2 * ki * u_init / pow(h, 2);
-}
+// inline double T_boundary(double ki, double h, double u_init = 1) {
+//     return 2 * ki * u_init / pow(h, 2);
+// }
 
-inline double IfFuncRp(double Si, double Sj, double pi, double pj){
+inline double IfFuncRp(double si, double sj, double pi, double pj){
     if (pi > pj){
-        return Si;
-    } else return Sj;
+        return si;
+    } else return sj;
 }
 
 inline double IfFuncRs(double pi, double pj){

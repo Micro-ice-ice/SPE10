@@ -16,7 +16,11 @@ int main(int argc, char **argv) {
     Cell::SetNy(NY);
     Cell::SetCellCount(NX * NY);
 
-    vector<Cell> cells;
+    vector<Cell> cells; //grid
+
+    vector<double> jacobi_value; //COO jacobi mattrix format
+    vector<int> jacobi_row;
+    vector<int> jacobi_column;
 
     //open data file
 
@@ -32,6 +36,42 @@ int main(int argc, char **argv) {
         newfile.close(); //close the file object.
     } else {
         cout << "File isn't open";
+    }
+
+    //create jacobi
+
+    for(int i = 0; i < cells.size(); ++i){
+
+        Cell &cell = cells[i];
+
+        //first block 
+        {
+            double sum = 0;
+
+            //top 
+
+            if (cell.Top == true){
+
+                Cell &topCell = cells[cell.GetTopIndex()];
+
+                double topValue = 
+                T_ij(cell.GetKy(), topCell.GetKy(), HY) * 
+                IfFuncRp(cell.GetS(), topCell.GetS(), cell.GetP(), topCell.GetP()) + 
+                K_si(0, cell.GetP(), cell.GetS(), false) * 
+                WI(cell.GetKx(), cell.GetKy());
+
+                sum = sum + topValue;
+            }
+
+            
+
+            //bottom
+
+            //left
+
+            //right
+
+        }
     }
 
     return 0;

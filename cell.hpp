@@ -29,6 +29,10 @@ private:
 
     double Phi;
 
+    double P; //pressure
+
+    double S; //saturation oil 
+
 public:
 
     bool Top;
@@ -52,6 +56,16 @@ public:
     static void SetCellCount(int count){
 
         CellCount = count;
+    }
+
+    void SetS(double s){
+
+        S = s;
+    }
+
+    void SetP(double p){
+
+        P = p;
     }
 
     int GetTopIndex(){
@@ -94,6 +108,16 @@ public:
     //     RightIndex = index;
     // }
 
+    double GetS(){
+
+        return S;
+    }
+
+    double GetP(){
+
+        return P;
+    }
+
     double GetKx(){
 
         return Kx;
@@ -121,6 +145,8 @@ Cell::Cell(double kx, double ky, double phi)
     Kx = kx;
     Ky = ky;
     Phi = phi;
+    S = 0.75;
+    P = 100;
 
     //top
 

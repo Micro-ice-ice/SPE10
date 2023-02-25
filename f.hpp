@@ -2,7 +2,7 @@
 #include <cmath>
 #include "vars.hpp"
 
-inline double k_si(double pb, double pi, double Si, bool w){
+inline double K_si(double pb, double pi, double si, bool w){
     if (pb > pi){
        if (w){
            return 1;
@@ -11,9 +11,9 @@ inline double k_si(double pb, double pi, double Si, bool w){
     }
     else{
         if (!w){
-            return 1 - Si;
+            return 1 - si;
         }
-        else return Si;
+        else return si;
     }
 }
 
@@ -25,7 +25,7 @@ inline double WI(double kx, double ky){
             S));
 }
 
-inline double Tij(double ki, double kj, double h){
+inline double T_ij(double ki, double kj, double h){
     return 2 * ki * kj / pow(h, 2) * (ki + kj);
 }
 
@@ -33,13 +33,13 @@ inline double T_boundary(double ki, double h, double u_init = 1) {
     return 2 * ki * u_init / pow(h, 2);
 }
 
-inline double if_func_Rp(double Si, double Sj, double pi, double pj){
+inline double IfFuncRp(double Si, double Sj, double pi, double pj){
     if (pi > pj){
         return Si;
     } else return Sj;
 }
 
-inline double if_func_Rs(double pi, double pj){
+inline double IfFuncRs(double pi, double pj){
     if (pi > pj){
         return 1;
     } else return 0;

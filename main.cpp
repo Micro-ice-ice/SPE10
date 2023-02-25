@@ -10,18 +10,20 @@ using namespace std;
 
 int main(int argc, char **argv) {
 
+    //init grid parameters
+
     Cell::SetNx(NX);
     Cell::SetNy(NY);
     Cell::SetCellCount(NX * NY);
 
     vector<Cell> cells;
 
-    double *grid = new double[NX * NY * 3];
+    //open data file
+
     string filename = "../por_perm_case2a/data.txt";   // Name of the file
     ifstream newfile (filename);
     if (newfile.is_open()){ //checking whether the file is open
         //cout << "File is open";
-        int i = 0;
         double kx, ky, phi;
         while (newfile >> kx >> ky >> phi) {
 

@@ -74,25 +74,25 @@ public:
         return RightIndex;
     }
 
-    void SetTopIndex(int index){
+    // void SetTopIndex(int index){
 
-        TopIndex = index;
-    }
+    //     TopIndex = index;
+    // }
 
-    void SetBottomIndex(int index){
+    // void SetBottomIndex(int index){
 
-        BottomIndex = index;
-    }
+    //     BottomIndex = index;
+    // }
 
-    void SetLeftIndex(int index){
+    // void SetLeftIndex(int index){
 
-        LeftIndex = index;
-    }
+    //     LeftIndex = index;
+    // }
 
-    void SetRightIndex(int index){
+    // void SetRightIndex(int index){
 
-        RightIndex = index;
-    }
+    //     RightIndex = index;
+    // }
 
     double GetKx(){
 
@@ -123,6 +123,7 @@ Cell::Cell(double kx, double ky, double phi)
     Phi = phi;
 
     //top
+
     if (Index - Nx >= 0){
 
         TopIndex = Index - Nx;
@@ -174,6 +175,8 @@ Cell::Cell(double kx, double ky, double phi)
 Cell::~Cell()
 {
 }
+
+//init static vars
 
 int Cell::Indexator = 0;
 int Cell::Nx = 0;

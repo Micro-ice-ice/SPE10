@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
                 K_si(PB, cell.GetP(), cell.GetS(), false) * 
                 WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(topValue);
+                jacobi_value.push_back(-topValue);
                 jacobi_row.push_back(i);
                 jacobi_column.push_back(cell.GetTopIndex());
 
@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
                 K_si(PB, cell.GetP(), cell.GetS(), false) * 
                 WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(bottomValue);
+                jacobi_value.push_back(-bottomValue);
                 jacobi_row.push_back(i);
                 jacobi_column.push_back(cell.GetBottomIndex());
 
@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
                 K_si(PB, cell.GetP(), cell.GetS(), false) * 
                 WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(leftValue);
+                jacobi_value.push_back(-leftValue);
                 jacobi_row.push_back(i);
                 jacobi_column.push_back(cell.GetLeftIndex());
 
@@ -117,7 +117,7 @@ int main(int argc, char **argv) {
                 K_si(PB, cell.GetP(), cell.GetS(), false) * 
                 WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(rightValue);
+                jacobi_value.push_back(-rightValue);
                 jacobi_row.push_back(i);
                 jacobi_column.push_back(cell.GetRightIndex());
 
@@ -149,7 +149,7 @@ int main(int argc, char **argv) {
                 K_si(PB, cell.GetP(), 1 - cell.GetS(), true) * 
                 WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(topValue);
+                jacobi_value.push_back(-topValue);
                 jacobi_row.push_back(i + shift);
                 jacobi_column.push_back(cell.GetTopIndex() + shift);
 
@@ -168,7 +168,7 @@ int main(int argc, char **argv) {
                 K_si(PB, cell.GetP(), 1 - cell.GetS(), true) * 
                 WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(bottomValue);
+                jacobi_value.push_back(-bottomValue);
                 jacobi_row.push_back(i + shift);
                 jacobi_column.push_back(cell.GetBottomIndex() + shift);
 
@@ -187,7 +187,7 @@ int main(int argc, char **argv) {
                 K_si(PB, cell.GetP(), 1 - cell.GetS(), true) * 
                 WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(leftValue);
+                jacobi_value.push_back(-leftValue);
                 jacobi_row.push_back(i + shift);
                 jacobi_column.push_back(cell.GetLeftIndex() + shift);
 
@@ -206,7 +206,7 @@ int main(int argc, char **argv) {
                 K_si(PB, cell.GetP(), 1 - cell.GetS(), true) * 
                 WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(rightValue);
+                jacobi_value.push_back(-rightValue);
                 jacobi_row.push_back(i + shift);
                 jacobi_column.push_back(cell.GetRightIndex() + shift);
 
@@ -221,8 +221,6 @@ int main(int argc, char **argv) {
 
         }
     }
-
-    cout << jacobi_value.size();
 
     return 0;
 

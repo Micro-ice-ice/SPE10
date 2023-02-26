@@ -1,21 +1,29 @@
 #pragma once
 #include <cmath>
 #include "vars.hpp"
-
-inline double K_si(double pb, double pi, double si, bool w){
+// только для dR/dp
+inline double K_p(double pb, double pi, double si){
     if (pb > pi){
-       if (w){
-           return 1;
-       }
-       else return 0;
+        return 0;
     }
-    else{
-        if (!w){
-            return 1 - si;
+    else return si;
+}
+
+// для dR0/dsi и dRw/dsi (для элементов вне диагонали не используется)
+inline double K_s(double pb, double pi, double si, bool w){
+    if (!w){
+        if (pb > pi){
+            return 0;
         }
-        else return si;
+        else return 1;
+    }
+    else {
+        if (pb > pi) {
+            return 1;
+        } else return si;
     }
 }
+
 
 inline double WI(double kx, double ky){
     return (2 * PI * HZ * sqrt(kx * ky)) /
@@ -39,8 +47,16 @@ inline double IfFuncRp(double si, double sj, double pi, double pj){
     } else return sj;
 }
 
-inline double IfFuncRs(double pi, double pj){
-    if (pi > pj){
-        return 1;
-    } else return 0;
+inline double IfFuncRs(double pi, double pj, bool diag){
+    if (diag) {
+        if (pi > pj) {
+            return 1;
+        } else return 0;
+    }
+    else{
+        if (pi > pj) {
+            return 0;
+        } else return 1;
+    }
 }
+

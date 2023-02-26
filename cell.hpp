@@ -68,6 +68,11 @@ public:
         P = p;
     }
 
+    int GetIndex(){
+
+        return Index;
+    }
+
     int GetTopIndex(){
 
         return TopIndex;

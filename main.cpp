@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 
     //open data file
 
-    string filename = "../por_perm_case2a/data.txt";   // Name of the file
+    string filename = "../data.txt";   // Name of the file
     ifstream newfile (filename);
     if (newfile.is_open()){ //checking whether the file is open
         //cout << "File is open";
@@ -43,24 +43,32 @@ int main(int argc, char **argv) {
     for(int i = 0; i < cells.size(); ++i){
 
         Cell &cell = cells[i];
-
+        //  -------------------
+        //  |        |        |
+        //  | dR0/dP | dR0/dS |
+        //  |        |        |
+        //  -------------------
+        //  |        |        |
+        //  | dRw/dS | dRw/dP |
+        //  |        |        |
+        //  -------------------
         //first block oil dR/dP
         {
             double sum = 0;
 
             //top 
 
-            if (cell.Top == true){
+            if (cell.Top){
 
                 Cell &topCell = cells[cell.GetTopIndex()];
 
                 double topValue = 
                 T_ij(cell.GetKy(), topCell.GetKy(), HY) * 
                 IfFuncRp(cell.GetS(), topCell.GetS(), cell.GetP(), topCell.GetP()) + 
-                K_si(PB, cell.GetP(), cell.GetS(), false) * 
+                K_p(PB, cell.GetP(), cell.GetS()) *
                 WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(topValue);
+                jacobi_value.push_back(-topValue);
                 jacobi_row.push_back(i);
                 jacobi_column.push_back(cell.GetTopIndex());
 
@@ -69,17 +77,17 @@ int main(int argc, char **argv) {
 
             //bottom
 
-            if (cell.Bottom == true){
+            if (cell.Bottom){
 
                 Cell &bottomCell = cells[cell.GetBottomIndex()];
 
                 double bottomValue = 
                 T_ij(cell.GetKy(), bottomCell.GetKy(), HY) * 
                 IfFuncRp(cell.GetS(), bottomCell.GetS(), cell.GetP(), bottomCell.GetP()) + 
-                K_si(PB, cell.GetP(), cell.GetS(), false) * 
+                K_p(PB, cell.GetP(), cell.GetS()) *
                 WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(bottomValue);
+                jacobi_value.push_back(-bottomValue);
                 jacobi_row.push_back(i);
                 jacobi_column.push_back(cell.GetBottomIndex());
 
@@ -88,17 +96,17 @@ int main(int argc, char **argv) {
 
             //left
 
-            if (cell.Left == true){
+            if (cell.Left){
 
                 Cell &leftCell = cells[cell.GetLeftIndex()];
 
                 double leftValue = 
                 T_ij(cell.GetKx(), leftCell.GetKx(), HX) * 
                 IfFuncRp(cell.GetS(), leftCell.GetS(), cell.GetP(), leftCell.GetP()) + 
-                K_si(PB, cell.GetP(), cell.GetS(), false) * 
+                K_p(PB, cell.GetP(), cell.GetS()) *
                 WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(leftValue);
+                jacobi_value.push_back(-leftValue);
                 jacobi_row.push_back(i);
                 jacobi_column.push_back(cell.GetLeftIndex());
 
@@ -107,17 +115,17 @@ int main(int argc, char **argv) {
 
             //right
 
-             if (cell.Right == true){
+             if (cell.Right){
 
                 Cell &rightCell = cells[cell.GetRightIndex()];
 
                 double rightValue = 
                 T_ij(cell.GetKx(), rightCell.GetKx(), HX) * 
                 IfFuncRp(cell.GetS(), rightCell.GetS(), cell.GetP(), rightCell.GetP()) + 
-                K_si(PB, cell.GetP(), cell.GetS(), false) * 
+                K_p(PB, cell.GetP(), cell.GetS()) *
                 WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(rightValue);
+                jacobi_value.push_back(-rightValue);
                 jacobi_row.push_back(i);
                 jacobi_column.push_back(cell.GetRightIndex());
 
@@ -132,24 +140,30 @@ int main(int argc, char **argv) {
 
         }
 
-        //firth block water dR/dP
+        //second block oil dR/dS
+
+
+        //third block water dR/dS
+
+
+        //forth block water dR/dP
         {
             int shift = NX * NY;
             double sum = 0;
 
-            //top 
+            //top
 
-            if (cell.Top == true){
+            if (cell.Top){
 
                 Cell &topCell = cells[cell.GetTopIndex()];
 
-                double topValue = 
-                T_ij(cell.GetKy(), topCell.GetKy(), HY) * 
-                IfFuncRp(1 - cell.GetS(), 1 - topCell.GetS(), cell.GetP(), topCell.GetP()) + 
-                K_si(PB, cell.GetP(), 1 - cell.GetS(), true) * 
-                WI(cell.GetKx(), cell.GetKy());
+                double topValue =
+                        T_ij(cell.GetKy(), topCell.GetKy(), HY) *
+                        IfFuncRp(1 - cell.GetS(), 1 - topCell.GetS(), cell.GetP(), topCell.GetP()) +
+                        K_p(PB, cell.GetP(), cell.GetS()) *
+                        WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(topValue);
+                jacobi_value.push_back(-topValue);
                 jacobi_row.push_back(i + shift);
                 jacobi_column.push_back(cell.GetTopIndex() + shift);
 
@@ -158,17 +172,17 @@ int main(int argc, char **argv) {
 
             //bottom
 
-            if (cell.Bottom == true){
+            if (cell.Bottom){
 
                 Cell &bottomCell = cells[cell.GetBottomIndex()];
 
-                double bottomValue = 
-                T_ij(cell.GetKy(), bottomCell.GetKy(), HY) * 
-                IfFuncRp(1 - cell.GetS(), 1 - bottomCell.GetS(), cell.GetP(), bottomCell.GetP()) + 
-                K_si(PB, cell.GetP(), 1 - cell.GetS(), true) * 
-                WI(cell.GetKx(), cell.GetKy());
+                double bottomValue =
+                        T_ij(cell.GetKy(), bottomCell.GetKy(), HY) *
+                        IfFuncRp(1 - cell.GetS(), 1 - bottomCell.GetS(), cell.GetP(), bottomCell.GetP()) +
+                        K_p(PB, cell.GetP(), cell.GetS()) *
+                        WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(bottomValue);
+                jacobi_value.push_back(-bottomValue);
                 jacobi_row.push_back(i + shift);
                 jacobi_column.push_back(cell.GetBottomIndex() + shift);
 
@@ -177,17 +191,17 @@ int main(int argc, char **argv) {
 
             //left
 
-            if (cell.Left == true){
+            if (cell.Left){
 
                 Cell &leftCell = cells[cell.GetLeftIndex()];
 
-                double leftValue = 
-                T_ij(cell.GetKx(), leftCell.GetKx(), HX) * 
-                IfFuncRp(1 - cell.GetS(), 1 - leftCell.GetS(), cell.GetP(), leftCell.GetP()) + 
-                K_si(PB, cell.GetP(), 1 - cell.GetS(), true) * 
-                WI(cell.GetKx(), cell.GetKy());
+                double leftValue =
+                        T_ij(cell.GetKx(), leftCell.GetKx(), HX) *
+                        IfFuncRp(1 - cell.GetS(), 1 - leftCell.GetS(), cell.GetP(), leftCell.GetP()) +
+                        K_p(PB, cell.GetP(), cell.GetS()) *
+                        WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(leftValue);
+                jacobi_value.push_back(-leftValue);
                 jacobi_row.push_back(i + shift);
                 jacobi_column.push_back(cell.GetLeftIndex() + shift);
 
@@ -196,30 +210,31 @@ int main(int argc, char **argv) {
 
             //right
 
-             if (cell.Right == true){
+            if (cell.Right){
 
                 Cell &rightCell = cells[cell.GetRightIndex()];
 
-                double rightValue = 
-                T_ij(cell.GetKx(), rightCell.GetKx(), HX) * 
-                IfFuncRp(1 - cell.GetS(), 1 - rightCell.GetS(), cell.GetP(), rightCell.GetP()) + 
-                K_si(PB, cell.GetP(), 1 - cell.GetS(), true) * 
-                WI(cell.GetKx(), cell.GetKy());
+                double rightValue =
+                        T_ij(cell.GetKx(), rightCell.GetKx(), HX) *
+                        IfFuncRp(1 - cell.GetS(), 1 - rightCell.GetS(), cell.GetP(), rightCell.GetP()) +
+                        K_p(PB, cell.GetP(), cell.GetS()) *
+                        WI(cell.GetKx(), cell.GetKy());
 
-                jacobi_value.push_back(rightValue);
+                jacobi_value.push_back(-rightValue);
                 jacobi_row.push_back(i + shift);
                 jacobi_column.push_back(cell.GetRightIndex() + shift);
 
                 sum = sum + rightValue;
             }
 
-            //cell 
+            //cell
 
             jacobi_value.push_back(sum);
             jacobi_row.push_back(i + shift);
             jacobi_column.push_back(i + shift);
 
         }
+
     }
 
     cout << jacobi_value.size();

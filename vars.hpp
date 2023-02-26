@@ -9,3 +9,5 @@ const double HX = 1 / double(NX), HY = 1 / (double)NY;
 const double HZ = 1, S = 0, RW = HX * HY * 0.9;
 
 const double PB = 500;
+
+const double HT = 1;

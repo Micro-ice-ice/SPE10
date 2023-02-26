@@ -1,7 +1,7 @@
 #pragma once
 #include <cmath>
 #include "vars.hpp"
-// только для dR/dp
+// только для dR/dpi и dR/dpj
 inline double K_p(double pb, double pi, double si){
     if (pb > pi){
         return 0;
@@ -45,6 +45,23 @@ inline double IfFuncRp(double si, double sj, double pi, double pj){
     if (pi > pj){
         return si;
     } else return sj;
+}
+
+inline double IfFuncRpi(double si, double sj_top, double sj_down, double sj_left, double sj_right,
+                        double pi, double pj_top, double pj_down, double pj_left, double pj_right){
+    if (pi < pj_top) {
+        return sj_top;
+    }
+    if (pi < pj_down) {
+        return sj_down;
+    }
+    if (pi < pj_left) {
+        return sj_left;
+    }
+    if (pi < pj_right) {
+        return sj_right;
+    }
+    else return si;
 }
 
 inline double IfFuncRs(double pi, double pj, bool diag){

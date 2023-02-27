@@ -1,6 +1,11 @@
 #pragma once
 #include <cmath>
+#include <vector>
 #include "vars.hpp"
+#include "solver/pcg.cpp"
+
+using namespace std;
+
 // только для dR/dpi и dR/dpj
 inline double K_p(double pb, double pi, double si){
     if (pb > pi){
@@ -47,23 +52,6 @@ inline double IfFuncRp(double si, double sj, double pi, double pj){
     } else return sj;
 }
 
-inline double IfFuncRpi(double si, double sj_top, double sj_down, double sj_left, double sj_right,
-                        double pi, double pj_top, double pj_down, double pj_left, double pj_right){
-    if (pi < pj_top) {
-        return sj_top;
-    }
-    if (pi < pj_down) {
-        return sj_down;
-    }
-    if (pi < pj_left) {
-        return sj_left;
-    }
-    if (pi < pj_right) {
-        return sj_right;
-    }
-    else return si;
-}
-
 inline double IfFuncRs(double pi, double pj, bool diag){
     if (diag) {
         if (pi > pj) {
@@ -77,3 +65,37 @@ inline double IfFuncRs(double pi, double pj, bool diag){
     }
 }
 
+inline vector<double> Solve(vector<int> jacobi_row, vector<int> jacobi_column, vector<double> jacobi_value, vector<double> r){
+    //write J.mtx, R.txt
+    std::ofstream output("J.mtx"),  vec("r.txt");
+    output << "%%MatrixMarket matrix coordinate real general" << std::endl;
+    output << 2 * NX * NY << " " << 2 * NX * NY  << " " << jacobi_value.size() << std::endl;
+    vec << 2 * NX * NY << std::endl;
+
+    for (size_t i = 0; i < jacobi_row.size() - 1; ++i)
+    {
+        for (int j = jacobi_row[i]; j < jacobi_row[i + 1]; ++j)
+            output << i + 1 << " " << jacobi_column[j] + 1 << " " << jacobi_value[j] << std::endl;
+        vec << r[i] << std::endl;
+
+    }
+    output.close();
+
+    system("pcg.exe");
+
+    string filename = "../solution_pcg.txt";   // Name of the file
+    ifstream newfile (filename);
+    vector<double>delta_R;
+    if (newfile.is_open()){ //checking whether the file is open
+        //cout << "File is open";
+        double b;
+        while (newfile >> b){
+            delta_R.push_back(b);
+        }
+        newfile.close(); //close the file object.
+    } else {
+        cout << "File isn't open";
+    }
+
+    return delta_R;
+}
